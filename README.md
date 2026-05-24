@@ -192,13 +192,3 @@ python problem3.py
 * Python 3
 * NumPy
 * Matplotlib
-
----
-
-## Key Concepts
-
-- Probability theory and combinatorics
-- Monte Carlo simulation
-- Random sampling and polling models
-- Geometric probability
-- Statistical inference under uncertainty
