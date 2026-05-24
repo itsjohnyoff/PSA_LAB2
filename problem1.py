@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 def get_theoretical():
+    # count all possible outcomes
     counts = {s: 0 for s in range(3, 19)}
     total = 6**3
     for d1 in range(1, 7):
@@ -13,6 +14,7 @@ def get_theoretical():
     return probs, counts
 
 def simulate(n=1000000):
+    # Monte Carlo simulation
     counts = {s: 0 for s in range(3, 19)}
     for _ in range(n):
         roll = random.randint(1, 6) + random.randint(1, 6) + random.randint(1, 6)
@@ -21,6 +23,7 @@ def simulate(n=1000000):
     return probs
 
 def plot(theo, exp):
+    # compare theory and experiment
     sums = list(theo.keys())
     x = np.arange(len(sums))
     width = 0.35
@@ -37,6 +40,7 @@ def plot(theo, exp):
     ax.legend()
     ax.grid(axis='y', linestyle='--', alpha=0.5)
 
+    # highlight sums 9 and 10
     ax.get_xticklabels()[9 - 3].set_color('red')
     ax.get_xticklabels()[9 - 3].set_fontweight('bold')
     ax.get_xticklabels()[10 - 3].set_color('green')
@@ -51,6 +55,7 @@ def plot(theo, exp):
             verticalalignment='top', bbox=box_style, fontfamily='monospace')
 
     plt.tight_layout()
+    # save figure
     plt.savefig('dice_paradox_results.png', dpi=300)
     plt.show()
 
