@@ -67,7 +67,7 @@ Graph saved to dice_paradox_results.png
 
 A bar chart comparing theoretical and experimental probabilities for all possible sums is generated and saved as `dice_paradox_results.png`. Sums 9 and 10 are highlighted on the x-axis for clarity.
 
-![Distribution of Sums for Three Dice](dice_paradox_results.png)
+![](dice_paradox_results.png)
 
 ---
 
@@ -91,7 +91,7 @@ This process is repeated 100 times per scenario. The output reports how many of 
 ### Scenarios Tested
 
 | Sample Size | Democrat | Republican |
-|-------------|----------|------------|
+| ----------- | -------- | ---------- |
 | 1000        | 52%      | 48%        |
 | 1000        | 51%      | 49%        |
 | 3000        | 52%      | 48%        |
@@ -142,9 +142,9 @@ python problem2.py
 
 ## Technologies Used
 
-- **Python 3**
-- **NumPy** – random sampling and numerical computation
-- **Matplotlib** – probability distribution chart
+* Python 3
+* NumPy
+* Matplotlib
 
 ---
 
