@@ -1,85 +1,131 @@
-# PSA Lab 2: Galileo's Dice Paradox
+# PSA Laboratory Assignments
 
 ## Overview
-This repository contains the implementation for the second laboratory assignment in the Probability and Statistics (PSA) course. The project explores Galileo's Dice Paradox, which addresses the probability difference between obtaining a sum of 9 versus a sum of 10 when rolling three fair six-sided dice.
 
-## Problem Description
-A classic question in probability asks why a sum of 10 appears more frequently than a sum of 9 when rolling three dice, even though both sums can be formed by the same number of unordered combinations (partitions). 
+This repository contains two laboratory assignments for the Probability and Statistics (PSA) course. Each assignment combines mathematical analysis with simulation to verify probabilistic results empirically.
 
-Unordered partitions:
-* **Sum of 9:** (1,2,6), (1,3,5), (1,4,4), (2,2,5), (2,3,4), (3,3,3) — 6 partitions
-* **Sum of 10:** (1,3,6), (1,4,5), (2,2,6), (2,3,5), (2,4,4), (3,3,4) — 6 partitions
+---
 
-Despite having the same number of partitions, experimental trials show that a sum of 10 occurs more often than a sum of 9.
+## Problem 1 — Galileo's Dice Paradox
 
-## Mathematical Explanation
-The paradox is resolved by considering the ordered outcomes (permutations). Since the three dice are independent and distinguishable, each partition has a different number of permutations based on its elements:
+### Problem Statement
 
-* Distinct numbers (e.g., 1, 2, 6) have 3! = 6 permutations.
-* Partitions with two repeating numbers (e.g., 1, 4, 4) have 3! / 2! = 3 permutations.
-* Partitions with three repeating numbers (e.g., 3, 3, 3) have 3! / 3! = 1 permutation.
+When rolling three fair six-sided dice, both a sum of 9 and a sum of 10 can be formed from exactly 6 unordered combinations (partitions). Despite this, empirical observation shows that a sum of 10 occurs more frequently than a sum of 9.
 
-### Permutations for Sum 9:
-* (1,2,6) -> 6 permutations
-* (1,3,5) -> 6 permutations
-* (1,4,4) -> 3 permutations
-* (2,2,5) -> 3 permutations
-* (2,3,4) -> 6 permutations
-* (3,3,3) -> 1 permutation
-* **Total Permutations:** 6 + 6 + 3 + 3 + 6 + 1 = 25
-* **Theoretical Probability:** P(9) = 25 / 216 ≈ 0.1157
+### Mathematical Explanation
 
-### Permutations for Sum 10:
-* (1,3,6) -> 6 permutations
-* (1,4,5) -> 6 permutations
-* (2,2,6) -> 3 permutations
-* (2,3,5) -> 6 permutations
-* (2,4,4) -> 3 permutations
-* (3,3,4) -> 3 permutations
-* **Total Permutations:** 6 + 6 + 3 + 6 + 3 + 3 = 27
-* **Theoretical Probability:** P(10) = 27 / 216 = 0.1250
+The paradox is resolved by counting ordered outcomes (permutations), not partitions. Since the three dice are independent, each combination has a different number of permutations depending on how many elements repeat.
 
-## Methodology
-The solution is implemented in `problem1.py` and consists of two main parts:
-1. **Theoretical Computation:** A brute-force calculation over all 216 possible outcomes to count the exact permutations for each sum (from 3 to 18) and calculate their exact probabilities.
-2. **Monte Carlo Simulation:** A simulation of 1,000,000 trials of rolling three independent dice, computing the empirical frequencies of each sum.
-3. **Data Visualization:** Plotting the comparison between the theoretical and experimental results and saving it as an image.
+**Sum of 9 — ordered outcomes:**
 
-## Project Structure
-```text
-.
-├── problem1.py                 # Main Python script containing the math, simulation, and plotting
-├── dice_paradox_results.png    # Generated chart comparing theoretical and experimental probabilities
-└── README.md                   # Project documentation
+| Partition  | Permutations |
+|------------|-------------|
+| (1, 2, 6)  | 6           |
+| (1, 3, 5)  | 6           |
+| (1, 4, 4)  | 3           |
+| (2, 2, 5)  | 3           |
+| (2, 3, 4)  | 6           |
+| (3, 3, 3)  | 1           |
+| **Total**  | **25**      |
+
+P(9) = 25 / 216 ≈ 0.1157
+
+**Sum of 10 — ordered outcomes:**
+
+| Partition  | Permutations |
+|------------|-------------|
+| (1, 3, 6)  | 6           |
+| (1, 4, 5)  | 6           |
+| (2, 2, 6)  | 3           |
+| (2, 3, 5)  | 6           |
+| (2, 4, 4)  | 3           |
+| (3, 3, 4)  | 3           |
+| **Total**  | **27**      |
+
+P(10) = 27 / 216 ≈ 0.1250
+
+### Methodology
+
+1. **Theoretical computation** — brute-force enumeration of all 6³ = 216 outcomes.
+2. **Monte Carlo simulation** — 1,000,000 rolls of three independent dice using NumPy.
+3. **Visualization** — side-by-side bar chart comparing theoretical and experimental probabilities.
+
+### Results
+
+```
+Combinations resulting in 9:  25  (P = 0.1157)
+Combinations resulting in 10: 27  (P = 0.1250)
+Graph saved to dice_paradox_results.png
 ```
 
-## Technologies Used
-* **Python 3**
-* **NumPy** - for numerical data structuring
-* **Matplotlib** - for generating the probability distribution chart
+The simulation closely matches the theoretical values, confirming that sum 10 is more probable than sum 9.
 
-## Installation & Setup
-To run this project locally, ensure you have Python 3 installed. Install the required dependencies using pip:
+### Generated Graph
+
+![Distribution of Sums for Three Dice](dice_paradox_results.png)
+
+---
+
+## Problem 2 — National Election Simulation
+
+### Problem Statement
+
+A pollster samples a subset of voters to predict the winner of a two-candidate election. The goal is to determine how often the pollster correctly identifies the winner across 100 repeated trials, under different sample sizes and probability splits.
+
+### Simulation Approach
+
+Each trial draws a random sample of voters. Each voter independently votes Democrat with probability `p` and Republican with probability `1 - p`. The pollster predicts Democrat wins if more than half the sampled votes are Democrat. This is repeated 100 times per scenario.
+
+### Scenarios Tested
+
+| Sample Size | Democrat % | Republican % |
+|-------------|-----------|-------------|
+| 1000        | 52%       | 48%         |
+| 1000        | 51%       | 49%         |
+| 3000        | 52%       | 48%         |
+| 3000        | 51%       | 49%         |
+
+### Interpretation of Results
+
+A larger sample size reduces variance and leads to more consistent correct predictions. A smaller margin between candidates (51/49) makes the pollster's task harder, so correct predictions drop compared to the 52/48 split. Increasing the sample size from 1000 to 3000 compensates for the smaller margin.
+
+---
+
+## Installation
+
+Requires Python 3. Install dependencies:
 
 ```bash
 pip install numpy matplotlib
 ```
 
+---
+
 ## Usage
-Run the script using the command:
+
+Run each problem independently:
 
 ```bash
 python problem1.py
+python problem2.py
 ```
 
-## Example Output
-Running the script outputs the following console text:
+---
+
+## Repository Structure
 
 ```text
-Combinations resulting in 9: 25 (P = 0.1157)
-Combinations resulting in 10: 27 (P = 0.1250)
-Graph saved to dice_paradox_results.png
+.
+├── problem1.py                # Galileo's Dice Paradox — theory, simulation, and plot
+├── problem2.py                # Election polling simulation
+├── dice_paradox_results.png   # Output graph from problem1.py
+└── README.md
 ```
 
-## Results
-The comparison confirms the theoretical analysis. The empirical probabilities closely match the theoretical outcomes, showing the distinct difference between 9 and 10. The output visualization is saved in the repository as `dice_paradox_results.png`.
+---
+
+## Technologies Used
+
+- Python 3
+- NumPy
+- Matplotlib
