@@ -64,8 +64,8 @@ if __name__ == "__main__":
     theo_probs, theo_counts = get_theoretical()
     exp_probs = simulate(1_000_000)
 
-    print(f"Combinations resulting in 9:  {theo_counts[9]}  (P = {theo_probs[9]:.4f})")
-    print(f"Combinations resulting in 10: {theo_counts[10]}  (P = {theo_probs[10]:.4f})")
+    print(f"Combinations resulting in 9: {theo_counts[9]} (P = {theo_probs[9]:.4f})")
+    print(f"Combinations resulting in 10: {theo_counts[10]} (P = {theo_probs[10]:.4f})")
 
     plot_results(theo_probs, exp_probs)
     print("Graph saved to dice_paradox_results.png")
