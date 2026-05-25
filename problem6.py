@@ -2,16 +2,14 @@ import numpy as np
 
 
 def simulate(n=1_000_000):
-    # coin radius r, square side = 4r
-    # coin fits inside if center is in [r, 3r] x [r, 3r]
-    # probability = (2r)^2 / (4r)^2 = 1/4
+    # coin radius r, square side L = 4r
     side = 4.0
     r = 1.0
 
     x = np.random.uniform(0, side, n)
     y = np.random.uniform(0, side, n)
 
-    # check if coin center is far enough from all edges
+    # check if coin lands entirely inside the square
     inside = (x > r) & (x < side - r) & (y > r) & (y < side - r)
     return np.mean(inside)
 

@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def simulate(n_experiments=1000, n_flips=100):
-    # simulate coin tosses: each row is one experiment
+    # simulate coin tosses
     tosses = np.random.randint(0, 2, size=(n_experiments, n_flips))
     return tosses.sum(axis=1)
 
@@ -11,7 +11,7 @@ def simulate(n_experiments=1000, n_flips=100):
 def plot_distribution(heads_counts):
     n_exp = len(heads_counts)
 
-    # proportions for each value in [35, 65]
+    # calculate empirical proportions
     n_values = np.arange(35, 66)
     proportions = np.array([np.sum(heads_counts == n) / n_exp for n in n_values])
 
@@ -19,7 +19,7 @@ def plot_distribution(heads_counts):
     ax.bar(n_values, proportions, color='#2b5c8f', edgecolor='black',
            alpha=0.7, label='Simulated proportions')
 
-    # theoretical normal curve N(50, 5^2)
+    # calculate normal approximation
     mu, sigma = 50, 5
     x = np.linspace(35, 65, 200)
     y = (1 / (sigma * np.sqrt(2 * np.pi))) * np.exp(-0.5 * ((x - mu) / sigma) ** 2)

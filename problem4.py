@@ -2,15 +2,15 @@ import numpy as np
 
 
 def simulate(n=1_000_000):
-    # generate 4 random points on a unit circle and sort them
+    # sample and sort four random points on a circle
     points = np.sort(np.random.uniform(0, 1, (n, 4)), axis=1)
 
-    # arc lengths between consecutive points
+    # compute consecutive arc lengths
     a = points[:, 1] - points[:, 0]
     b = points[:, 2] - points[:, 1]
     c = points[:, 3] - points[:, 2]
 
-    # angle constraints: all interior angles < 120 degrees
+    # check angle constraints for the quadrilateral
     u = a + b
     v = b + c
     mask = (u > 1/3) & (u < 2/3) & (v > 1/3) & (v < 2/3)

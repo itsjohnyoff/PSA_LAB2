@@ -2,12 +2,12 @@ import numpy as np
 
 
 def simulate_a(n=100_000):
-    # geometric: number of births until first boy
+    # simulate scenario A: stop after first boy
     return np.random.geometric(0.5, n)
 
 
 def simulate_b(n=100_000):
-    # first child + geometric wait for opposite sex
+    # simulate scenario B: stop after both sexes
     return 1 + np.random.geometric(0.5, n)
 
 

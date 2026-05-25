@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains seven laboratory assignments for the Probability and Statistics (PSA) course. Each problem uses Python to combine analytical computation with Monte Carlo simulation, allowing theoretical probability results to be verified empirically.
+This repository contains eight laboratory assignments for the Probability and Statistics (PSA) course. Each problem uses Python to combine analytical computation with Monte Carlo simulation, allowing theoretical probability results to be verified empirically.
 
 ---
 
@@ -369,6 +369,61 @@ The bar chart closely follows the shape of the normal density curve, confirming 
 
 ---
 
+## Problem 8 – Conference Seating Problem
+
+### Problem Statement
+
+At a mathematical conference, 10 participants are randomly seated around a circular table for lunch. Later, the same 10 participants are randomly seated around a circular table for dinner. The goal is to estimate, using simulation, the probability that no two participants sit next to each other at both meals, and to investigate the behavior of this probability as the number of participants $n$ increases.
+
+### Mathematical Background
+
+* **Circular Permutations**: For a table of $n$ participants, fixing the position of one participant leaves $(n-1)!$ unique circular arrangements. Under the random seating assumption, all circular seatings are equally likely.
+* **Adjacency Definition**: In a circular seating of $n$ participants, each participant has exactly two neighbors, and the seating wraps around the table. The neighboring relationships are undirected, meaning there are exactly $n$ unique adjacent pairs.
+* **Adjacency Check**: If the lunch seating is fixed as $0, 1, \dots, n-1$, two participants $x$ and $y$ are adjacent if and only if $|x - y| = 1$ or $|x - y| = n - 1$.
+* **Poisson Conjecture**: In a random dinner seating, the probability that any specific lunch pair remains adjacent is $2/(n-1)$. By linearity of expectation, the expected number of common adjacent pairs is $E[X] = 2n/(n-1) \to 2$ as $n \to \infty$. By modeling the number of common adjacent pairs as a Poisson random variable with parameter $\lambda = 2$, the probability of zero common adjacent pairs converges to:
+  $$P(X = 0) \approx e^{-2} \approx 0.1353$$
+
+### Methodology
+
+1. **Random Dinner Seating**: The lunch seating is fixed to $0, 1, \dots, n-1$. Each dinner trial is simulated by generating an independent random permutation of $0, 1, \dots, n-1$ using NumPy.
+2. **Adjacency Extraction**: The absolute difference between adjacent participants in the dinner permutation (wrapping around to connect the first and last elements) is computed.
+3. **Collision Detection**: A trial is successful if no adjacent elements in dinner have a difference of $1$ or $n-1$.
+4. **Estimation**: The probability is estimated as the fraction of successful trials across 100,000 runs.
+5. **Scale Analysis**: The simulation is run for increasing values of $n$ (from 5 to 100) to observe convergence to the theoretical Poisson limit.
+
+### Output
+
+Running `problem8.py` prints:
+
+```
+Conference Seating Problem Simulation (Lunch vs Dinner)
+
+For n = 10:
+  Simulated probability:   0.0826
+  Theoretical asymptotic:  0.1353 (e^-2)
+
+Investigating behavior as n increases:
+n      | Simulated Prob   | Asymptotic (e^-2) 
+----------------------------------------------
+5      | 0.0843           | 0.1353            
+10     | 0.0814           | 0.1353            
+15     | 0.1004           | 0.1353            
+20     | 0.1097           | 0.1353            
+30     | 0.1172           | 0.1353            
+50     | 0.1248           | 0.1353            
+100    | 0.1291           | 0.1353            
+
+Conjecture for large n:
+  As n -> infinity, the expected number of common adjacent pairs converges to 2.
+  By Poisson approximation, the probability of zero common pairs converges to e^-2 ~ 0.1353.
+```
+
+### Interpretation
+
+As the number of participants $n$ increases, the probability that no two participants sit next to each other at both meals initially decreases from $n=5$ to $n=10$, but then steadily increases towards the limiting probability of $e^{-2} \approx 0.1353$. This limit corresponds to the Poisson approximation of independent matching edges on the graph, confirming that for a large number of participants, the probability converges to approximately $13.53\%$.
+
+---
+
 ## Installation
 
 Requires Python 3. Install dependencies with:
@@ -391,6 +446,7 @@ python problem4.py
 python problem5.py
 python problem6.py
 python problem7.py
+python problem8.py
 ```
 
 ---
@@ -406,6 +462,7 @@ python problem7.py
 ├── problem5.py                # Family planning simulation
 ├── problem6.py                # Coin toss game at Ziua Vinului
 ├── problem7.py                # Coin toss distribution and normal approximation
+├── problem8.py                # Conference seating problem
 ├── dice_paradox_results.png   # Bar chart generated by problem1.py
 ├── coin_toss_normal_fit.png   # Distribution plot generated by problem7.py
 └── README.md

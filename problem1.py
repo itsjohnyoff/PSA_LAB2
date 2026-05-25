@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def get_theoretical():
-    # count all possible outcomes for sums of 3 dice
+    # count possible outcomes for three dice
     counts = {s: 0 for s in range(3, 19)}
     total = 6 ** 3
     for d1 in range(1, 7):
@@ -15,7 +15,7 @@ def get_theoretical():
 
 
 def simulate(n=1_000_000):
-    # Monte Carlo simulation using numpy for speed
+    # run Monte Carlo simulation
     rolls = np.random.randint(1, 7, size=(n, 3)).sum(axis=1)
     counts = {s: int(np.sum(rolls == s)) for s in range(3, 19)}
     probs = {s: c / n for s, c in counts.items()}
@@ -23,7 +23,7 @@ def simulate(n=1_000_000):
 
 
 def plot_results(theo, exp):
-    # compare theoretical and experimental distributions
+    # plot probability distributions
     sums = list(theo.keys())
     x = np.arange(len(sums))
     width = 0.35
@@ -40,7 +40,7 @@ def plot_results(theo, exp):
     ax.legend()
     ax.grid(axis='y', linestyle='--', alpha=0.5)
 
-    # highlight sums 9 and 10
+    # highlight sums 9 and 10 on x-axis
     ax.get_xticklabels()[9 - 3].set_color('red')
     ax.get_xticklabels()[9 - 3].set_fontweight('bold')
     ax.get_xticklabels()[10 - 3].set_color('green')
@@ -55,7 +55,7 @@ def plot_results(theo, exp):
             verticalalignment='top', bbox=box_style, fontfamily='monospace')
 
     plt.tight_layout()
-    # save figure
+    # save plot
     plt.savefig('dice_paradox_results.png', dpi=300)
     plt.show()
 
